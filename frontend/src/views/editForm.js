@@ -1,6 +1,4 @@
-import model from "../model.js";
 import { categories } from "../utils/constants.js";
-import { notes } from "../utils/notes.js";
 
 class editForm {
   constructor() {
