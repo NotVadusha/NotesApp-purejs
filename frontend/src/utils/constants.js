@@ -6,13 +6,13 @@ export const categories = {
 };
 
 export const controlButtons = `
-    <button class=""><img class="w-8 h-8 inline" src="./src/icons/pen.svg" alt="icon"/></button>
-    <button class=""><img class="w-8 h-8 inline" src="./src/icons/toArchive.svg" alt="icon"/></i></button>
-    <button class=""><img class="w-8 h-8 inline" src="./src/icons/toDelete.svg" alt="icon"/></i></button>`;
+    <button class="w-12 h-12 editNote"><img class="w-8 h-8 inline" src="./src/icons/pen.svg" alt="icon"/></button>
+    <button class="w-12 h-12 archiveNote"><img class="w-8 h-8 inline" src="./src/icons/toArchive.svg" alt="icon"/></i></button>
+    <button class="w-12 h-12 deleteNote"><img class="w-8 h-8 inline" src="./src/icons/toDelete.svg" alt="icon"/></i></button>`;
 
 export const tableTopButtons = `
-<button class="inline-block changeStateAll"><img class="w-8 h-8 inline" src="./src/icons/archiveAll.svg" alt="icon"/></button>
-<button class="inline-block deleteAll"><img class="w-8 h-8 inline" src="./src/icons/deleteAll.svg" alt="icon"/></button>
+<button class="w-12 h-12 changeStateAll"><img class="w-8 h-8 inline" src="./src/icons/archiveAll.svg" alt="icon"/></button>
+<button class="w-12 h-12 deleteAll"><img class="w-8 h-8 inline" src="./src/icons/deleteAll.svg" alt="icon"/></button>
 `;
 
 export const maxContentLength = 35;
