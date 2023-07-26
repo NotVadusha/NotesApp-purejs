@@ -9,10 +9,10 @@ class Archive {
   constructor() {
     this.notesList = notes || [];
     document.body.innerHTML += `
-      <div class="container mx-auto my-8">
+      <div class="container mx-auto my-4 absolute left-full inset-0 bottom-0" id="archiveContainer">
           <h1 class="text-3xl font-semibold text-center">Archive</h1>
           <div class="">
-            <table class="mx-auto my-8 table-auto border-separate border-spacing-y-3" id="archiveTable">
+            <table class="mx-auto my-4 table-auto border-separate border-spacing-y-3" id="archiveTable">
               <thead class="h-14 bg-gray-300">
               <tr class="rounded-md">
                 <th scope="col" class="w-16 rounded-l-md"></th>
