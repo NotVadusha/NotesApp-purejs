@@ -1,14 +1,18 @@
 import {
+  activeTableTopButtons,
   categories,
-  controlButtons,
+  controlButtonsActive,
   maxContentLength,
-  tableTopButtons,
 } from "../utils/constants.js";
 
 class activeNotesTable {
   constructor() {
     this.notesList = JSON.parse(localStorage.getItem("notes"));
     document.getElementById("root").innerHTML += `
+    <div class="w-fit mx-auto">
+    <button class="bg-gray-300 py-2 px-6 rounded" id="createNote">Create</button>
+    <button class="bg-gray-300 py-2 px-6 rounded" id="openArchive">Archive</button>
+</div>
     <table class="mx-auto mb-16 table-auto border-separate border-spacing-y-3" id="activeNotesTable">
       <thead class="h-14 bg-gray-300">
         <tr class="rounded-md">
@@ -19,16 +23,13 @@ class activeNotesTable {
           <th scope="col" class="w-64 text-left">Content</th>
           <th scope="col" class="w-56 text-left">Dates</th>
           <th scope="col" class="w-40 text-right pr-1 rounded-r-md">
-          ${tableTopButtons}
+          ${activeTableTopButtons}
           </th>
         </tr>
       </thead>
       <tbody></tbody>
     </table>
-    <div class="w-fit mx-auto">
-        <button class="bg-gray-300 py-2 px-6 rounded" id="createNote">Create</button>
-        <button class="bg-gray-300 py-2 px-6 rounded" id="openArchive">Archive</button>
-    </div>
+
         `;
     this.notesTableBody = document
       .getElementById("activeNotesTable")
@@ -63,7 +64,7 @@ class activeNotesTable {
                 <td>${note.category}</td>
                 <td>${content}</td>
                 <td>${note.dates}</td>
-                <td class="text-right pr-1 rounded-r-md">${controlButtons}</td>
+                <td class="text-right pr-1 rounded-r-md">${controlButtonsActive}</td>
             </tr>
             `
               );

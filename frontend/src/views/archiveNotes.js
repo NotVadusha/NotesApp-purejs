@@ -1,14 +1,18 @@
 import {
+  archiveTableTopButtons,
   categories,
-  controlButtons,
-  tableTopButtons,
+  controlButtonsArchive,
+  maxContentLength,
 } from "../utils/constants.js";
 
 class Archive {
   constructor() {
     this.notesList = JSON.parse(localStorage.getItem("notes"));
     document.body.innerHTML += `
-      <div class="container mx-auto my-4 absolute inset-0 bottom-0 hidden" id="archiveContainer">
+      <div class="container mx-auto my-4 hidden" id="archiveContainer">
+        <div class="w-fit mx-auto my-6">
+          <button class="bg-gray-300 rounded text-xl font-semibold py-2 px-6" id="closeArchive">Close</button>
+        </div>
           <h1 class="text-3xl font-semibold text-center">Archive</h1>
           <div class="">
             <table class="mx-auto my-4 table-auto border-separate border-spacing-y-3" id="archiveTable">
@@ -21,16 +25,14 @@ class Archive {
                 <th scope="col" class="w-64 text-left">Content</th>
                 <th scope="col" class="w-56 text-left">Dates</th>
                 <th scope="col" class="w-40 text-right pr-1 rounded-r-md">
-                ${tableTopButtons}
+                ${archiveTableTopButtons}
                 </th>
               </tr>
               </thead>
               <tbody></tbody>
             </table>
           </div>
-          <div class="w-fit mx-auto">
-              <button class="bg-gray-300 rounded text-xl font-semibold py-2 px-6" id="closeArchive">Close</button>
-          </div>
+
       </div>
       `;
     this.archiveTableBody = document
@@ -64,7 +66,7 @@ class Archive {
                     <td>${note.category}</td>
                     <td>${content}</td>
                     <td>${note.dates}</td>
-                    <td class="ext-right pr-1 rounded-r-md">${controlButtons}</td>
+                    <td class="text-right pr-1 rounded-r-md">${controlButtonsArchive}</td>
                 </tr>
                     `
             );
