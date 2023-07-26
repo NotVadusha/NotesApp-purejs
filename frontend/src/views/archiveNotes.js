@@ -3,13 +3,12 @@ import {
   controlButtons,
   tableTopButtons,
 } from "../utils/constants.js";
-import { notes } from "../utils/notes.js";
 
 class Archive {
   constructor() {
-    this.notesList = notes || [];
+    this.notesList = JSON.parse(localStorage.getItem("notes"));
     document.body.innerHTML += `
-      <div class="container mx-auto my-4 absolute left-full inset-0 bottom-0" id="archiveContainer">
+      <div class="container mx-auto my-4 absolute inset-0 bottom-0 hidden" id="archiveContainer">
           <h1 class="text-3xl font-semibold text-center">Archive</h1>
           <div class="">
             <table class="mx-auto my-4 table-auto border-separate border-spacing-y-3" id="archiveTable">
@@ -40,7 +39,7 @@ class Archive {
   }
 
   render() {
-    this.notesList = notes || [];
+    this.notesList = JSON.parse(localStorage.getItem("notes"));
     this.archiveTableBody = document
       .getElementById("archiveTable")
       .getElementsByTagName("tbody")[0];
