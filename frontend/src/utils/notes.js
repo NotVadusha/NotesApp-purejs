@@ -1,0 +1,38 @@
+export const notes = [
+  {
+    id: `${self.crypto.randomUUID()}`,
+    name: "noteInfo.name",
+    createDate: "12.12.2023",
+    category: "Task",
+    content: "SomeContent",
+    dates: "dates",
+    state: "active",
+  },
+  {
+    id: `${self.crypto.randomUUID()}`,
+    name: "noteInfo.name",
+    createDate: "12.12.2023",
+    category: "Quote",
+    content: "SomeContent",
+    dates: "dates",
+    state: "active",
+  },
+  {
+    id: `${self.crypto.randomUUID()}`,
+    name: "noteInfo.name",
+    createDate: "12.12.2023",
+    category: "Idea",
+    content: "SomeContent",
+    dates: "dates",
+    state: "active",
+  },
+  {
+    id: `${self.crypto.randomUUID()}`,
+    name: "noteInfo.name",
+    createDate: "12.12.2023",
+    category: "Thought",
+    content: "SomeContent",
+    dates: "dates",
+    state: "archived",
+  },
+];
