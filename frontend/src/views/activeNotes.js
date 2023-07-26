@@ -4,13 +4,12 @@ import {
   maxContentLength,
   tableTopButtons,
 } from "../utils/constants.js";
-import { notes } from "../utils/notes.js";
 
 class activeNotesTable {
   constructor() {
-    this.notesList = notes || [];
+    this.notesList = JSON.parse(localStorage.getItem("notes"));
     document.getElementById("root").innerHTML += `
-    <table class="mx-auto my-16 table-auto border-separate border-spacing-y-3" id="activeNotesTable">
+    <table class="mx-auto mb-16 table-auto border-separate border-spacing-y-3" id="activeNotesTable">
       <thead class="h-14 bg-gray-300">
         <tr class="rounded-md">
           <th scope="col" class="w-16 rounded-l-md"></th>
@@ -37,7 +36,7 @@ class activeNotesTable {
     this.notesTableHtml = ``;
   }
   render() {
-    this.notesList = notes || [];
+    this.notesList = JSON.parse(localStorage.getItem("notes"));
     this.notesTableBody = document
       .getElementById("activeNotesTable")
       .getElementsByTagName("tbody")[0];

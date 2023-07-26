@@ -3,7 +3,8 @@ import { notes } from "./utils/notes.js";
 
 class Model {
   constructor() {
-    this.notes = notes | "";
+    this.notesList = notes || [];
+    localStorage.setItem("notes", JSON.stringify(this.notesList));
   }
 
   saveNote(noteInfo) {
@@ -39,6 +40,7 @@ class Model {
 
   archiveNote(noteId) {
     if (!noteId) throw new Error("There is no ID");
+    console.log(noteId);
     this.notesList = this.getNotes();
     this.notesList.forEach((note) => {
       if (note.id === noteId) {
@@ -117,11 +119,11 @@ class Model {
 
   setNotes(notesArr) {
     if (notesArr === null) notesArr = [];
-    notes = notesArr;
+    localStorage.setItem("notes", JSON.stringify(notesArr));
   }
 
   getNotes() {
-    return notes;
+    return JSON.parse(localStorage.getItem("notes"));
   }
 }
 

@@ -1,14 +1,8 @@
-import {
-  categories,
-  controlButtons,
-  maxContentLength,
-  tableTopButtons,
-} from "../utils/constants.js";
-import { notes } from "../utils/notes.js";
+import { categories } from "../utils/constants.js";
 
 class statisticTable {
   constructor() {
-    this.notesList = notes || [];
+    this.notesList = JSON.parse(localStorage.getItem("notes"));
     document.getElementById("root").innerHTML += `
     <table class="mx-auto my-16 table-auto border-separate border-spacing-y-3" id="statisticTable">
     <thead class="h-14 bg-gray-300">
