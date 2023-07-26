@@ -5,14 +5,23 @@ export const categories = {
   Quote: `<img class="w-8 h-8 inline my-2" src="./src/icons/quote.svg" alt="qoute-ico"/>`,
 };
 
-export const controlButtons = `
-    <button class=""><img class="w-8 h-8 inline" src="./src/icons/pen.svg" alt="icon"/></button>
-    <button class=""><img class="w-8 h-8 inline" src="./src/icons/toArchive.svg" alt="icon"/></i></button>
-    <button class=""><img class="w-8 h-8 inline" src="./src/icons/toDelete.svg" alt="icon"/></i></button>`;
+export const controlButtonsActive = `
+    <button class="w-12 h-12 editNote"><img class="w-8 h-8 inline" src="./src/icons/pen.svg" alt="icon"/></button>
+    <button class="w-12 h-12 archiveNote"><img class="w-8 h-8 inline" src="./src/icons/toArchive.svg" alt="icon"/></i></button>
+    <button class="w-12 h-12 deleteNote"><img class="w-8 h-8 inline" src="./src/icons/toDelete.svg" alt="icon"/></i></button>`;
 
-export const tableTopButtons = `
-<button class="inline-block changeStateAll"><img class="w-8 h-8 inline" src="./src/icons/archiveAll.svg" alt="icon"/></button>
-<button class="inline-block deleteAll"><img class="w-8 h-8 inline" src="./src/icons/deleteAll.svg" alt="icon"/></button>
+export const controlButtonsArchive = `
+    <button class="w-12 h-12 unArchiveNote"><img class="w-8 h-8 inline" src="./src/icons/toArchive.svg" alt="icon"/></i></button>
+    <button class="w-12 h-12 deleteNote"><img class="w-8 h-8 inline" src="./src/icons/toDelete.svg" alt="icon"/></i></button>`;
+
+export const activeTableTopButtons = `
+<button class="w-12 h-12" id="archiveAll"><img class="w-8 h-8 inline" src="./src/icons/archiveAll.svg" alt="icon"/></button>
+<button class="w-12 h-12" id="deleteAllActive"><img class="w-8 h-8 inline" src="./src/icons/deleteAll.svg" alt="icon"/></button>
+`;
+
+export const archiveTableTopButtons = `
+<button class="w-12 h-12" id="unArchiveAll"><img class="w-8 h-8 inline" src="./src/icons/archiveAll.svg" alt="icon"/></button>
+<button class="w-12 h-12" id="deleteAllArchived"><img class="w-8 h-8 inline" src="./src/icons/deleteAll.svg" alt="icon"/></button>
 `;
 
 export const maxContentLength = 35;

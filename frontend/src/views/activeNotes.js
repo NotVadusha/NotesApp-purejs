@@ -1,39 +1,43 @@
 import {
+  activeTableTopButtons,
   categories,
-  controlButtons,
+  controlButtonsActive,
   maxContentLength,
-  tableTopButtons,
 } from "../utils/constants.js";
-import { notes } from "../utils/notes.js";
 
 class activeNotesTable {
   constructor() {
-    this.notesList = notes || [];
+    this.notesList = JSON.parse(localStorage.getItem("notes"));
     document.getElementById("root").innerHTML += `
-    <table class="mx-auto my-16 table-auto border-separate border-spacing-y-3" id="activeNotesTable">
-    <thead class="h-14 bg-gray-300">
-    <tr class="rounded-md">
-        <th scope="col" class="w-16 rounded-l-md"></th>
-        <th scope="col" class="w-32 text-left">Name</th>
-        <th scope="col" class="w-24 text-left">Created</th>
-        <th scope="col" class="w-24 text-left">Category</th>
-        <th scope="col" class="w-64 text-left">Content</th>
-        <th scope="col" class="w-56 text-left">Dates</th>
-        <th scope="col" class="w-40 text-right pr-1 rounded-r-md">
-        ${tableTopButtons}
-        </th>
-    </tr>
-    </thead>
-    <tbody></tbody>
-</table>
-    `;
+    <div class="w-fit mx-auto">
+    <button class="bg-gray-300 py-2 px-6 rounded" id="createNote">Create</button>
+    <button class="bg-gray-300 py-2 px-6 rounded" id="openArchive">Archive</button>
+</div>
+    <table class="mx-auto mb-16 table-auto border-separate border-spacing-y-3" id="activeNotesTable">
+      <thead class="h-14 bg-gray-300">
+        <tr class="rounded-md">
+          <th scope="col" class="w-16 rounded-l-md"></th>
+          <th scope="col" class="w-32 text-left">Name</th>
+          <th scope="col" class="w-24 text-left">Created</th>
+          <th scope="col" class="w-24 text-left">Category</th>
+          <th scope="col" class="w-64 text-left">Content</th>
+          <th scope="col" class="w-56 text-left">Dates</th>
+          <th scope="col" class="w-40 text-right pr-1 rounded-r-md">
+          ${activeTableTopButtons}
+          </th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+        `;
     this.notesTableBody = document
       .getElementById("activeNotesTable")
       .getElementsByTagName("tbody")[0];
     this.notesTableHtml = ``;
   }
   render() {
-    this.notesList = notes || [];
+    this.notesList = JSON.parse(localStorage.getItem("notes"));
     this.notesTableBody = document
       .getElementById("activeNotesTable")
       .getElementsByTagName("tbody")[0];
@@ -60,7 +64,7 @@ class activeNotesTable {
                 <td>${note.category}</td>
                 <td>${content}</td>
                 <td>${note.dates}</td>
-                <td class="text-right pr-1 rounded-r-md">${controlButtons}</td>
+                <td class="text-right pr-1 rounded-r-md">${controlButtonsActive}</td>
             </tr>
             `
               );
