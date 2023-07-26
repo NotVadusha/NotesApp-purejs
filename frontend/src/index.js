@@ -73,7 +73,7 @@ document.body.addEventListener("click", (e) => {
     } catch (e) {
       console.log(e);
     }
-  } else if (e.target.parentNode.matches(".editNote")) {
+  } else if (e.target.parentNode?.matches(".editNote")) {
     const id =
       e.target.parentNode.parentNode.parentNode.getAttribute("data-id");
     try {
@@ -98,7 +98,7 @@ document.body.addEventListener("click", (e) => {
     } catch (e) {
       console.log(e);
     }
-  } else if (e.target.parentNode.matches(".archiveNote")) {
+  } else if (e.target.parentNode?.matches(".archiveNote")) {
     const id =
       e.target.parentNode.parentNode.parentNode.getAttribute("data-id");
     try {
@@ -122,7 +122,7 @@ document.body.addEventListener("click", (e) => {
     } catch (e) {
       console.log(e);
     }
-  } else if (e.target.parentNode.matches(".unArchiveNote")) {
+  } else if (e.target.parentNode?.matches(".unArchiveNote")) {
     const id =
       e.target.parentNode.parentNode.parentNode.getAttribute("data-id");
     try {
@@ -146,7 +146,7 @@ document.body.addEventListener("click", (e) => {
     } catch (e) {
       console.log(e);
     }
-  } else if (e.target.parentNode.matches(".deleteNote")) {
+  } else if (e.target.parentNode?.matches(".deleteNote")) {
     const id =
       e.target.parentNode.parentNode.parentNode.getAttribute("data-id");
     try {

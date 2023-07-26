@@ -8,7 +8,7 @@ class editForm {
       this.options += `<option>${category}</option>`;
     });
     document.getElementById("root").innerHTML += `
-        <div class="absolute bg-gray-600/50 inset-0 hidden" id="editor">
+        <div class="absolute inset-0 hidden" id="editor">
             <div class="mx-auto my-4 w-fit h-max p-12 rounded bg-gray-100 shadow-md shadow-gray-600">
                 <form>
                     <input class="form-input w-48 rounded" id="nameInput" placeholder="Enter note name">
@@ -29,7 +29,6 @@ class editForm {
     this.contentInput = document.getElementById("contentInput");
   }
   renderEdit(noteId, action) {
-    document.body.classList.add("overflow-y-hidden");
     document.getElementById("editor").classList.remove("hidden");
     this.notesList = JSON.parse(localStorage.getItem("notes"));
     const selectedNote = this.notesList.filter((note) => noteId === note.id)[0];
@@ -47,17 +46,15 @@ class editForm {
           content: this.contentInput.value,
         };
         action(noteId, noteInfo);
-        document.body.classList.remove("overflow-y-hidden");
         document.getElementById("editor").classList.add("hidden");
         document
           .getElementById("submit")
           .removeEventListener("click", () => {});
+        submitBtn.replaceWith(submitBtn.cloneNode(true));
       }
-      submitBtn.replaceWith(submitBtn.cloneNode(true));
     });
   }
   renderCreate(action) {
-    document.body.classList.add("overflow-y-hidden");
     document.getElementById("editor").classList.remove("hidden");
     this.nameInput.value = "";
     this.categorySelector.value = Object.keys(categories)[0];
@@ -73,10 +70,9 @@ class editForm {
           content: this.contentInput.value,
         };
         action(noteInfo);
-        document.body.classList.remove("overflow-y-hidden");
         document.getElementById("editor").classList.add("hidden");
+        submitBtn.replaceWith(submitBtn.cloneNode(true));
       }
-      submitBtn.replaceWith(submitBtn.cloneNode(true));
     });
   }
 }
