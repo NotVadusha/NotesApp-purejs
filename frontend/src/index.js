@@ -1,163 +1,164 @@
 import model from "./model.js";
-import activeNotesTable from "./views/activeNotes.js";
-import statisticTable from "./views/statisticTable.js";
-import archiveTable from "./views/archiveNotes.js";
-import notesForm from "./views/editForm.js";
-const root = document.getElementById("root");
+import Notes from "./views/activeNotes.js";
+import Form from "./views/createForm.js";
+import Archive from "./views/archiveNotes.js";
+import Statistic from "./views/statisticTable.js";
+import Editor from "./views/editForm.js";
+import Warning from "./views/warningModals.js";
+import { categories } from "./utils/constants.js";
 
-activeNotesTable.render();
-statisticTable.render(model.getStats());
-archiveTable.render();
+if (!localStorage.getItem("notes")) {
+  localStorage.setItem("notes", JSON.stringify([]));
+}
+const statsTable = new Statistic();
+const form = new Form();
+const archive = new Archive();
+const edit = new Editor();
+const warning = new Warning();
 
-document.getElementById("openArchive").addEventListener("click", () => {
-  document.getElementById("archiveContainer").classList.remove("hidden");
-  root.classList.add("hidden");
+const renderUI = () => {
+  Notes.render();
+  statsTable.renderStats(model.getStats());
+  archive.render();
+};
+renderUI();
+
+const formModal = new bootstrap.Modal(document.getElementById("formModal"), {
+  backdrop: "static",
 });
-document.getElementById("closeArchive").addEventListener("click", () => {
-  document.getElementById("archiveContainer").classList.add("hidden");
-  root.classList.toggle("hidden");
+
+document.getElementById("cancelButton").addEventListener("click", () => {
+  formModal.hide();
 });
-document.getElementById("closeForm").addEventListener("click", () => {
-  document.getElementById("editor").classList.add("hidden");
-  document.body.classList.remove("overflow-y-hidden");
-});
+
 document.getElementById("createNote").addEventListener("click", () => {
+  formModal.show();
+});
+
+document.getElementById("createButton").addEventListener("click", () => {
+  const nameInput = document.getElementById("nameInput");
+  const categorySelect = document.getElementById("categorySelect");
+  const content = document.getElementById("noteContentArea");
+  const noteInfo = {
+    name: nameInput.value,
+    category: categorySelect.value,
+    content: content.value,
+  };
+  formModal.hide();
   try {
-    notesForm.renderCreate((noteInfo) => {
-      model.saveNote(noteInfo);
-      activeNotesTable.render();
-      statisticTable.render(model.getStats());
-      archiveTable.render();
-    });
-  } catch (e) {
-    console.log(e);
+    model.saveNote(noteInfo);
+  } catch (err) {
+    warning.renderWarning("Error", err);
   }
+  nameInput.value = "";
+  categorySelect.value = Object.keys(categories)[0];
+  content.value = "";
+  renderUI();
+});
+
+document.getElementById("archiveAll").addEventListener("click", () => {
+  warning.renderConfirmation("Archive ALL notes", () => {
+    model.changeStateAll("archived");
+    renderUI();
+  });
+});
+
+document.getElementById("deleteAll").addEventListener("click", () => {
+  warning.renderConfirmation("DELETE ALL ACTIVE NOTES", () => {
+    model.deleteAll("active");
+    renderUI();
+  });
 });
 
 document.getElementById("unArchiveAll").addEventListener("click", () => {
-  model.changeStateAll("active");
-  activeNotesTable.render();
-  statisticTable.render(model.getStats());
-  archiveTable.render();
+  warning.renderConfirmation("UnArchive ALL notes", () => {
+    model.changeStateAll("active");
+    renderUI();
+  });
 });
-document.getElementById("archiveAll").addEventListener("click", () => {
-  model.changeStateAll("archived");
-  activeNotesTable.render();
-  statisticTable.render(model.getStats());
-  archiveTable.render();
+
+document.getElementById("archiveDeleteAll").addEventListener("click", () => {
+  warning.renderConfirmation("DELETE ALL ARCHIVED NOTES", () => {
+    model.deleteAll("archived");
+    renderUI();
+  });
 });
-document.getElementById("deleteAllActive").addEventListener("click", () => {
-  model.deleteAll("active");
-  activeNotesTable.render();
-  statisticTable.render(model.getStats());
-  archiveTable.render();
+
+let id;
+
+document.body.addEventListener("click", (event) => {
+  // Editing
+  if (event.target.matches(".brush")) {
+    id = event.target.parentNode.parentNode.getAttribute("data-id");
+    try {
+      edit.render(id);
+    } catch (err) {
+      warning.renderWarning("Error", err);
+    }
+  } else if (event.target.matches(".bi-brush")) {
+    id = event.target.parentNode.parentNode.parentNode.getAttribute("data-id");
+    try {
+      edit.render(id);
+    } catch (err) {
+      warning.renderWarning("Error", err);
+    }
+  }
+
+  if (event.target.matches("#editChangeButton")) {
+    const editedInfo = {
+      name: document.getElementById("nameEdit").value,
+      category: document.getElementById("categoryEdit").value,
+      content: document.getElementById("noteContentAreaEdit").value,
+    };
+    try {
+      model.editNote(id, editedInfo);
+    } catch (err) {
+      warning.renderWarning("Error", err);
+    }
+    renderUI();
+  }
+
+  // Deleting
+  if (event.target.matches(".bucket")) {
+    model.deleteNote(
+      event.target.parentNode.parentNode.getAttribute("data-id")
+    );
+    Notes.render();
+    archive.render();
+    statsTable.renderStats(model.getStats());
+  } else if (event.target.matches(".bi-bucket")) {
+    model.deleteNote(
+      event.target.parentNode.parentNode.parentNode.getAttribute("data-id")
+    );
+    renderUI();
+  }
 });
-document.getElementById("deleteAllArchived").addEventListener("click", () => {
-  model.deleteAll("archived");
-  activeNotesTable.render();
-  statisticTable.render(model.getStats());
-  archiveTable.render();
-});
-// Bind edit buttons
+
 document.body.addEventListener("click", (e) => {
-  console.log(e.target);
-  if (e.target.matches(".editNote")) {
-    const id = e.target.parentNode.parentNode.getAttribute("data-id");
-    try {
-      notesForm.renderEdit(id, (id, noteInfo) => {
-        model.editNote(id, noteInfo);
-        activeNotesTable.render();
-        statisticTable.render(model.getStats());
-        archiveTable.render();
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  } else if (e.target.parentNode?.matches(".editNote")) {
-    const id =
-      e.target.parentNode.parentNode.parentNode.getAttribute("data-id");
-    try {
-      notesForm.renderEdit(id, (id, noteInfo) => {
-        model.editNote(id, noteInfo);
-        activeNotesTable.render();
-        statisticTable.render(model.getStats());
-        archiveTable.render();
-      });
-    } catch (e) {
-      console.log(e);
-    }
+  const tableType = e.target.parentNode.parentNode.parentNode.parentNode;
+  if (tableType.id === "activeNotesTable") {
+    model.archiveNote(
+      e.target.parentElement.parentElement.getAttribute("data-id")
+    );
+    renderUI();
+  } else if (tableType.parentNode.id === "activeNotesTable") {
+    model.archiveNote(
+      e.target.parentElement.parentElement.parentElement.getAttribute("data-id")
+    );
+    renderUI();
   }
-  //  Bind archive note buttons
-  if (e.target.matches(".archiveNote")) {
-    const id = e.target.parentNode.parentNode.getAttribute("data-id");
-    try {
-      model.archiveNote(id);
-      activeNotesTable.render();
-      statisticTable.render(model.getStats());
-      archiveTable.render();
-    } catch (e) {
-      console.log(e);
-    }
-  } else if (e.target.parentNode?.matches(".archiveNote")) {
-    const id =
-      e.target.parentNode.parentNode.parentNode.getAttribute("data-id");
-    try {
-      model.archiveNote(id);
-      activeNotesTable.render();
-      statisticTable.render(model.getStats());
-      archiveTable.render();
-    } catch (e) {
-      console.log(e);
-    }
+});
+document.body.addEventListener("click", (e) => {
+  const tableType = e.target.parentNode.parentNode.parentNode;
+  if (tableType.id === "archiveTableBody") {
+    model.unArchiveNote(
+      e.target.parentElement.parentElement.getAttribute("data-id")
+    );
+    renderUI();
+  } else if (tableType.parentNode.id === "archiveTableBody") {
+    model.unArchiveNote(
+      e.target.parentElement.parentElement.parentElement.getAttribute("data-id")
+    );
+    renderUI();
   }
-  //  Bind unarchive note buttons
-
-  if (e.target.matches(".unArchiveNote")) {
-    const id = e.target.parentNode.parentNode.getAttribute("data-id");
-    try {
-      model.unArchiveNote(id);
-      activeNotesTable.render();
-      statisticTable.render(model.getStats());
-      archiveTable.render();
-    } catch (e) {
-      console.log(e);
-    }
-  } else if (e.target.parentNode?.matches(".unArchiveNote")) {
-    const id =
-      e.target.parentNode.parentNode.parentNode.getAttribute("data-id");
-    try {
-      model.unArchiveNote(id);
-      activeNotesTable.render();
-      statisticTable.render(model.getStats());
-      archiveTable.render();
-    } catch (e) {
-      console.log(e);
-    }
-  }
-  //  Bind delete note buttons
-
-  if (e.target.matches(".deleteNote")) {
-    const id = e.target.parentNode.parentNode.getAttribute("data-id");
-    try {
-      model.deleteNote(id);
-      activeNotesTable.render();
-      statisticTable.render(model.getStats());
-      archiveTable.render();
-    } catch (e) {
-      console.log(e);
-    }
-  } else if (e.target.parentNode?.matches(".deleteNote")) {
-    const id =
-      e.target.parentNode.parentNode.parentNode.getAttribute("data-id");
-    try {
-      model.deleteNote(id);
-      activeNotesTable.render();
-      statisticTable.render(model.getStats());
-      archiveTable.render();
-    } catch (e) {
-      console.log(e);
-    }
-  }
-  if (e.target.matches("#editor"))
-    document.getElementById("editor").classList.add("hidden");
 });

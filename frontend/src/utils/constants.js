@@ -1,34 +1,16 @@
 export const categories = {
-  Thought: `<img class="w-8 h-8 inline my-2" src="./src/icons/thought.svg" alt="thoughts-ico"/>`,
-  Task: `<img class="w-8 h-8 inline my-2" src="./src/icons/cart.svg" alt="task-ico"`,
-  Idea: `<img class="w-8 h-8 inline my-2" src="./src/icons/idea.svg" alt="idea-ico"/>`,
-  Quote: `<img class="w-8 h-8 inline my-2" src="./src/icons/quote.svg" alt="qoute-ico"/>`,
+  Thoughts: '<i class="bi bi-patch-question"></i>',
+  Task: '<i class="bi bi-briefcase"></i>',
+  Idea: '<i class="bi bi-lightbulb"></i>',
+  Quote: '<i class="bi bi-chat-right-quote"></i>',
 };
 
-export const controlButtonsActive = `
-    <button class="w-12 h-12 editNote"><img class="w-8 h-8 inline" src="./src/icons/pen.svg" alt="icon"/></button>
-    <button class="w-12 h-12 archiveNote"><img class="w-8 h-8 inline" src="./src/icons/toArchive.svg" alt="icon"/></i></button>
-    <button class="w-12 h-12 deleteNote"><img class="w-8 h-8 inline" src="./src/icons/toDelete.svg" alt="icon"/></i></button>`;
-
-export const controlButtonsArchive = `
-    <button class="w-12 h-12 unArchiveNote"><img class="w-8 h-8 inline" src="./src/icons/toArchive.svg" alt="icon"/></i></button>
-    <button class="w-12 h-12 deleteNote"><img class="w-8 h-8 inline" src="./src/icons/toDelete.svg" alt="icon"/></i></button>`;
-
-export const activeTableTopButtons = `
-<button class="w-12 h-12" id="archiveAll"><img class="w-8 h-8 inline" src="./src/icons/archiveAll.svg" alt="icon"/></button>
-<button class="w-12 h-12" id="deleteAllActive"><img class="w-8 h-8 inline" src="./src/icons/deleteAll.svg" alt="icon"/></button>
-`;
-
-export const archiveTableTopButtons = `
-<button class="w-12 h-12" id="unArchiveAll"><img class="w-8 h-8 inline" src="./src/icons/archiveAll.svg" alt="icon"/></button>
-<button class="w-12 h-12" id="deleteAllArchived"><img class="w-8 h-8 inline" src="./src/icons/deleteAll.svg" alt="icon"/></button>
-`;
+export const controlIcons = `
+    <button class="btn btn-outline-primary brush"><i class=\"bi bi-brush\"></i></button>
+    <button class="btn btn-outline-primary archive"><i class=\"bi bi-archive\"></i></button>
+    <button class="btn btn-outline-primary bucket"><i class=\"bi bi-bucket\"></i></button>`;
 
 export const maxContentLength = 35;
 
 export const dateFormats =
-  /(((0[1-9]|[12][0-9]|3[01])([\/.-])(0[13578]|10|12)([\/.-])(\d{4}))|((0[1-9]|[12][0-9]|30)([\/.-])(0[469]|11)([\/.-])(\d{4}))|((0[1-9]|1[0-9]|2[0-8])([\/.-])(02)([\/.-])(\d{4}))|((29)([\/.-])(02)([\/.-])([02468][048]00))|((29)(\/)(02)(\/)([13579][26]00))|((29)([\/.-])(02)([\/.-])([0-9][0-9]0[48]))|((29)([\/.-])(02)([\/.-])([0-9][0-9][2468][048]))|((29)([\/.-])(02)([\/.-])([0-9][0-9][13579][26])))/g;
-// не розуміє дні й місяці з одним числом (12.2.2004 - не знайде, 12.02.2004 - знайде)
-
-// /(0?[1-9]|[12][0-9]|3[01])([\/.-])(0?[1-9]|1[012])([\/.-])\d{4}/g -- Працює,
-// але пропускає 31 лютого (і тп.) і не враховує високосний рік
+  /(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})|(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))|(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})/g;
