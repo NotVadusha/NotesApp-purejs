@@ -1,51 +1,56 @@
 import {
-  archiveTableTopButtons,
   categories,
-  controlButtonsArchive,
+  controlIcons,
   maxContentLength,
 } from "../utils/constants.js";
 
-class Archive {
+export default class Archive {
   constructor() {
     this.notesList = JSON.parse(localStorage.getItem("notes"));
-    document.body.innerHTML += `
-      <div class="container mx-auto my-4 hidden" id="archiveContainer">
-        <div class="w-fit mx-auto my-6">
-          <button class="bg-gray-300 rounded text-xl font-semibold py-2 px-6" id="closeArchive">Close</button>
-        </div>
-          <h1 class="text-3xl font-semibold text-center">Archive</h1>
-          <div class="">
-            <table class="mx-auto my-4 table-auto border-separate border-spacing-y-3" id="archiveTable">
-              <thead class="h-14 bg-gray-300">
-              <tr class="rounded-md">
-                <th scope="col" class="w-16 rounded-l-md"></th>
-                <th scope="col" class="w-32 text-left">Name</th>
-                <th scope="col" class="w-24 text-left">Created</th>
-                <th scope="col" class="w-24 text-left">Category</th>
-                <th scope="col" class="w-64 text-left">Content</th>
-                <th scope="col" class="w-56 text-left">Dates</th>
-                <th scope="col" class="w-40 text-right pr-1 rounded-r-md">
-                ${archiveTableTopButtons}
-                </th>
-              </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
+    this.archiveHtml = `
+      <div class="modal fade" id="archiveModal" tabindex="-1">
+        <div class="modal-dialog modal-fullscreen">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5">Archive</h1>
+            </div>
+            <div class="modal-body">
+              <table class="table table-primary table-hover table-borderless mt-5 container">
+                <thead>
+                  <tr>
+                    <th scope="col" class="col-1"></th>
+                    <th scope="col" class="align-middle col-2">Name</th>
+                    <th scope="col" class="align-middle col-1">Created</th>
+                    <th scope="col" class="align-middle col-1">Category</th>
+                    <th scope="col" class="align-middle col-3">Content</th>
+                    <th scope="col" class="align-middle col-2">Dates</th>
+                    <th scope="col" class="text-end col-4">
+                      <button class="btn btn-outline-primary" id="unArchiveAll">
+                        <i class="bi bi-archive"></i>
+                      </button>
+                      <button class="btn btn-outline-primary" id="archiveDeleteAll">
+                        <i class="bi bi-bucket"></i>
+                      </button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody id="archiveTableBody"></tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" id="closeArchive">Close</button>
+            </div>
           </div>
-
-      </div>
-      `;
-    this.archiveTableBody = document
-      .getElementById("archiveTable")
-      .getElementsByTagName("tbody")[0];
+        </div>
+    </div>
+    `;
+    document.getElementsByTagName("body")[0].innerHTML += this.archiveHtml;
+    this.archiveTableBody = document.getElementById("archiveTableBody");
   }
 
   render() {
     this.notesList = JSON.parse(localStorage.getItem("notes"));
-    this.archiveTableBody = document
-      .getElementById("archiveTable")
-      .getElementsByTagName("tbody")[0];
-
+    this.archiveTableBody = document.getElementById("archiveTableBody");
     this.archiveTableBody.innerHTML = this.notesList
       ? this.notesList.reduce((archivedNotesRows, note) => {
           if (note.state === "archived") {
@@ -57,16 +62,26 @@ class Archive {
             return (
               archivedNotesRows +
               `
-                <tr class="h-16 bg-blue-200" data-id="${note.id}">
-                    <th class="rounded-l-md"><div class="w-12 h-12 m-auto rounded-full bg-gray-300">${
-                      categories[note.category]
-                    }</div></th>
-                    <td>${note.name}</td>
+                <tr class="table-secondary" data-id="${note.id}">
+                    <th class="text-center">${categories[note.category]}</th>
+                    <td>${
+                      note.name.lenght > 20
+                        ? note.name.substring(0, 20)
+                        : note.name
+                    }                    
                     <td>${date}</td>
                     <td>${note.category}</td>
-                    <td>${content}</td>
-                    <td>${note.dates}</td>
-                    <td class="text-right pr-1 rounded-r-md">${controlButtonsArchive}</td>
+                    <td>${
+                      note.content.lenght > maxContentLength
+                        ? note.content.substring(0, maxContentLength) + "..."
+                        : note.content
+                    }</td>
+                    <td>${
+                      note.dates.lenght < 20
+                        ? note.dates.substring(0, 20)
+                        : note.dates
+                    }</td>
+                    <td class="text-end">${controlIcons}</td>
                 </tr>
                     `
             );
@@ -74,7 +89,15 @@ class Archive {
           return archivedNotesRows + "";
         }, "")
       : "";
+    const archiveModal = new bootstrap.Modal(
+      document.getElementById("archiveModal"),
+      { backdrop: "static" }
+    );
+    document.getElementById("closeArchive").addEventListener("click", () => {
+      archiveModal.hide();
+    });
+    document.getElementById("openArchive").addEventListener("click", () => {
+      archiveModal.show();
+    });
   }
 }
-
-export default new Archive();
